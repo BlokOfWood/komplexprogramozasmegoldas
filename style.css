@@ -13,14 +13,14 @@ ul{
 
 li{
     display: block;
-    background-color: grey;
-    width: 25%;
+    background-color: black;
+    width: 20%;
     text-align: center;
     float:left;
 }
 
 li:hover{
-    background-color: black;
+    background-color: grey;
 }
 
 li:active{
@@ -39,5 +39,15 @@ li:active{
 }
 
 html{
+    cursor: url('https://logos-world.net/wp-content/uploads/2020/06/Destiny-Symbol.png'); 
     background-color: white;
+}
+
+.active
+{
+    background-color: green;
+}
+
+a{
+    cursor: context-menu;
 }
