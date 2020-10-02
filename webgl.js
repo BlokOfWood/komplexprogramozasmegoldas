@@ -1,122 +1,163 @@
-tdl.require('tdl.buffers');
-tdl.require('tdl.fast');
-tdl.require('tdl.log');
-tdl.require('tdl.math');
-tdl.require('tdl.models');
-tdl.require('tdl.primitives');
-tdl.require('tdl.programs');
-tdl.require('tdl.textures');
-tdl.require('tdl.webgl');
+window.onload = init;
 
-function inputData()
-{
+const vertShader = `
+    attribute vec4 vertexPos;
 
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
+
+    void main() {
+        gl_Position = projectionMatrix * modelViewMatrix * vertexPos;
+    }
+`;
+const fragShader = `
+    void main() {
+        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+    }
+`;
+
+function loadShader(gl, type, code) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, code);
+  gl.compileShader(shader);
+
+  return shader;
 }
 
-var xControlPoints = [0, 1, 2]
-var yControlPoints = [0, 1, 0]
+function initShader(gl, vert, frag) {
+  const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vert);
+  const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, frag);
 
-function CalculateBezierCurve(t)
-{
-    x = Math.pow(1-t, 2)* xControlPoints[0] + 2 * (1 - t) * t * xControlPoints[1] + Math.pow(t, 2) * xControlPoints[2]
-    y = Math.pow(1-t, 2)* yControlPoints[0] + 2 * (1 - t) * t * yControlPoints[1] + Math.pow(t, 2) * yControlPoints[2]
-    return x,y;
+  const shaderProgram = gl.createProgram();
+  gl.attachShader(shaderProgram, vertexShader);
+  gl.attachShader(shaderProgram, fragmentShader);
+  gl.linkProgram(shaderProgram);
+
+  return shaderProgram;
 }
 
+function initBuffers(gl, positions) {
+  const positionBuffer = gl.createBuffer();
 
-function setupLogo() {
-    var program = tdl.programs.loadProgramFromScriptTags(
-      'modelVertexShader',
-      'modelFragmentShader');
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    positions = []
-    /*for(i = 0; i < 1; i += 0.01)
-    { 
-        var result = CalculateBezierCurve(i);
-        debugger;
-        positions.Push(CalculateBezierCurve(i).x, )
-    }*/
-  var arrays = {
-    position: new tdl.primitives.AttribBuffer(
-       3, [
-        1, 1, 0,
-        1, -1, 0,
-        -1, -1, 0,
-       -1,  1, 0,
-    ]),
-    indices: new tdl.primitives.AttribBuffer(2, [
-      0, 1,1,2,2, 3,3,0
-    ], 'Uint16Array')
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+  return {
+    position: positionBuffer,
   };
-  return new tdl.models.Model(program, arrays, {}, gl.LINES);
-};
+}
 
-var g_eyeRadius = 5;
-var g_fov       = 30;
-var g_trans     = [0,0,0];
+function draw(gl, programInfo, buffers, vertexCount) {
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.clearDepth(1.0);
+  gl.enable(gl.DEPTH_TEST);
+  gl.depthFunc(gl.LEQUAL);
 
-function initializeLogo(canvas) {
-  var math = tdl.math;
-  var fast = tdl.fast;
-  var model = setupLogo();
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  var clock = 0.0;
+  const fieldOfView = (45 * Math.PI) / 180; // in radians
+  const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+  const zNear = 0.1;
+  const zFar = 100.0;
+  const projectionMatrix = mat4.create();
 
-  // pre-allocate a bunch of arrays
-  var projection = new Float32Array(16);
-  var view = new Float32Array(16);
-  var world = new Float32Array(16);
-  var viewProjection = new Float32Array(16);
-  var worldViewProjection = new Float32Array(16);
-  var eyePosition = new Float32Array(3);
-  var target = new Float32Array(3);
-  var up = new Float32Array([0,1,0]);
+  mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
 
-  // uniforms.
-  var modelConst = {
+  const modelViewMatrix = mat4.create();
+
+  mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
+
+  const numComponents = 2;
+  const type = gl.FLOAT;
+  const normalize = false;
+  const stride = 0;
+
+  const offset = 0;
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+  gl.vertexAttribPointer(
+    programInfo.attribLocations.vertexPosition,
+    numComponents,
+    type,
+    normalize,
+    stride,
+    offset
+  );
+  gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+  gl.useProgram(programInfo.program);
+
+  gl.uniformMatrix4fv(
+    programInfo.uniformLocations.projectionMatrix,
+    false,
+    projectionMatrix
+  );
+  gl.uniformMatrix4fv(
+    programInfo.uniformLocations.modelViewMatrix,
+    false,
+    modelViewMatrix
+  );
+
+  gl.drawArrays(gl.LINES, offset, vertexCount);
+}
+
+var vertPositions = [];
+var vertexList = [];
+function init() {
+  const canvas = document.querySelector("#webgl-canvas");
+  const gl = canvas.getContext("webgl");
+
+  const shaderProgram = initShader(gl, vertShader, fragShader);
+  const programInfo = {
+    program: shaderProgram,
+    attribLocations: {
+      vertexPosition: gl.getAttribLocation(shaderProgram, "vertexPos"),
+    },
+    uniformLocations: {
+      projectionMatrix: gl.getUniformLocation(
+        shaderProgram,
+        "projectionMatrix"
+      ),
+      modelViewMatrix: gl.getUniformLocation(shaderProgram, "modelViewMatrix"),
+    },
   };
-  var modelPer = {
-    worldViewProjection: worldViewProjection
-  };
 
-  var then = (new Date()).getTime() * 0.001;
-  function render() {
-    tdl.webgl.requestAnimationFrame(render, canvas);
-    var now = (new Date()).getTime() * 0.001;
-    var elapsedTime = now - then;
-    then = now;
-
-    clock += elapsedTime;
-    eyePosition[0] = 0;
-    eyePosition[1] = 0;
-    eyePosition[2] = 10;
-
-    gl.colorMask(true, true, true, true);
-    gl.clearColor(0,0,0,0);
-    gl.lineWidth(2);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
-
-    gl.enable(gl.CULL_FACE);
-    gl.enable(gl.DEPTH_TEST);
-
-    fast.matrix4.perspective(
-        projection,
-        math.degToRad(g_fov),
-        canvas.clientWidth / canvas.clientHeight,
-        1,
-        5000);
-    fast.matrix4.lookAt(
-        view,
-        eyePosition,
-        target,
-        up);
-    fast.matrix4.mul(viewProjection, view, projection);
-
-    model.drawPrep(modelConst);
-    fast.matrix4.translation(world, g_trans);
-    fast.matrix4.mul(worldViewProjection, world, viewProjection);
-    model.draw(modelPer);
+  vertCount = 0;
+  for (i = 0; i < 4; i++) {
+    for (i = 0; i <= 1; i += 0.01) {
+      result = CalculateBezierCurve(i, xControlPoints, yControlPoints);
+      vertPositions.push(result[0]);
+      vertPositions.push(result[1]);
+      vertCount++;
+    }
+    for (i = 0; i < vertPositions.length; i += 2) {
+      vertexList.push(vertPositions[i]);
+      vertexList.push(vertPositions[i + 1]);
+      vertexList.push(vertPositions[i + 2]);
+      vertexList.push(vertPositions[i + 3]);
+    }
+    offset = xControlPoints[0] - xControlPoints[2]
+    for(i = 0; i < 3; i++)
+    {
+        xControlPoints += offset;
+    }
   }
-  render();
+
+  const buffers = initBuffers(gl, vertexList);
+  draw(gl, programInfo, buffers, vertCount * 2);
 }
 
+var xControlPoints = [-1.0, 0.0, 1.0];
+var yControlPoints = [-1.0, 5.0, -1.0];
+
+function CalculateBezierCurve(t, _xControlPoints, _yControlPoints) {
+  x =
+    Math.pow(1 - t, 2) * _xControlPoints[0] +
+    2 * (1 - t) * t * _xControlPoints[1] +
+    Math.pow(t, 2) * _xControlPoints[2];
+  y =
+    Math.pow(1 - t, 2) * _yControlPoints[0] +
+    2 * (1 - t) * t * _yControlPoints[1] +
+    Math.pow(t, 2) * _yControlPoints[2];
+  return [x, y];
+}
