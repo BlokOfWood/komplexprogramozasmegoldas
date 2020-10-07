@@ -51,3 +51,10 @@ html{
 a{
     cursor: context-menu;
 }
+
+table, td, tr{
+    border: 2px solid black;
+    margin: 10px;
+    text-align: left;
+    padding: 5px;
+}
