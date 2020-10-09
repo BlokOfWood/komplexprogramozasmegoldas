@@ -1,19 +1,23 @@
-window.onload = init;
 var gl;
 
 const vertShader = `
     attribute vec4 vertexPos;
-
+    attribute vec4 color;
     uniform mat4 modelViewMatrix;
     uniform mat4 projectionMatrix;
 
+    varying lowp vec4 fragColor;
+
     void main() {
+        fragColor = color;
         gl_Position = projectionMatrix * modelViewMatrix * vertexPos;
     }
 `;
 const fragShader = `
+    varying lowp vec4 fragColor;
+
     void main() {
-        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+        gl_FragColor = fragColor;
     }
 `;
 
@@ -23,7 +27,8 @@ function loadShader(gl, type, code) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, code);
     gl.compileShader(shader);
-
+    
+    console.log(gl.getShaderInfoLog(shader));  
     return shader;
 }
 
@@ -39,15 +44,18 @@ function initShader(gl, vert, frag) {
     return shaderProgram;
 }
 
-function initBuffers(gl, positions) {
+function initBuffers(gl, positions, colors) {
     const positionBuffer = gl.createBuffer();
+    const colorBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
     return {
         position: positionBuffer,
+        color: colorBuffer,
     };
 }
 
@@ -71,22 +79,29 @@ function draw(gl, programInfo, buffers, vertexCount) {
 
     mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
 
-    const numComponents = 2;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
 
-    const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset
+        2, //numComponents
+        gl.FLOAT, //type
+        false, //normalize
+        0, //stride
+        0 //offset
     );
     gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+    gl.vertexAttribPointer(
+        programInfo.attribLocations.color,
+        4, //number of components
+        gl.FLOAT, //type
+        false, //normalize
+        0, //stride
+        0 //offset
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.color);
+
 
     gl.useProgram(programInfo.program);
 
@@ -101,14 +116,16 @@ function draw(gl, programInfo, buffers, vertexCount) {
         modelViewMatrix
     );
 
-    gl.drawArrays(gl.LINES, offset, vertexCount);
+    gl.drawArrays(gl.LINES, 0, vertexCount);
 }
 
 var vertPositions = [];
 var vertexList = [];
+var colorList = [];
+
 function init() {
     const canvas = document.querySelector("#webgl-canvas");
-    gl = canvas.getContext("webgl", { antialias: false });
+    gl = canvas.getContext("webgl");
 
     const shaderProgram = initShader(gl, vertShader, fragShader);
 
@@ -116,6 +133,7 @@ function init() {
         program: shaderProgram,
         attribLocations: {
             vertexPosition: gl.getAttribLocation(shaderProgram, "vertexPos"),
+            color: gl.getAttribLocation(shaderProgram, "color"),
         },
         uniformLocations: {
             projectionMatrix: gl.getUniformLocation(
@@ -125,33 +143,34 @@ function init() {
             modelViewMatrix: gl.getUniformLocation(shaderProgram, "modelViewMatrix"),
         },
     };
-
-    CalculateVertecies(16)
-    const buffers = initBuffers(gl, vertexList);
-    
-    draw(gl, programInfo, buffers, vertexList.length);
 }
 
-function CalculateVertecies(width) {
+function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     vertPositions = [];
     vertexList = [];
     for (x = -width/2; x <= width/2; x += 2/gl.canvas.width) {
-        vertPositions.push(x);
-        vertPositions.push(Math.sin(x));
+        vertPositions.push(x * xMod);
+        vertPositions.push(yCalculationMethod(x) * yMod);
     }
     for (i = 0; i < vertPositions.length; i += 2) {
-        vertexList.push(vertPositions[i]);
-        vertexList.push(vertPositions[i + 1]);
-        vertexList.push(vertPositions[i + 2]);
-        vertexList.push(vertPositions[i + 3]);
+        for(x = 0; x < 4; x++)
+        {
+            vertexList.push(vertPositions[i + x]);
+            if(x % 2 == 0) 
+            colorList.push(1.0, 1.0, 1.0, 1.0)
+        }
     }
+    vertexList.push(0);
+    vertexList.push(-50);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(0);
+    vertexList.push(50);
+    colorList.push(0, 1, 0, 1.0);
 }
 
-function Input()
-{   
-    slider = document.querySelector('#xslider');
-    CalculateVertecies(slider.value);
-    const buffers = initBuffers(gl, vertexList);
+function DrawGraph(width, yCalculationMethod, xMod, yMod)
+{
+    CalculateVertecies(width, yCalculationMethod, xMod, yMod);
+    const buffers = initBuffers(gl, vertexList, colorList);
     draw(gl, programInfo, buffers, vertexList.length);
-    document.querySelector('#currentvalue').innerHTML = slider.value;
 }

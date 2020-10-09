@@ -1,43 +1,99 @@
 <!DOCTYPE html>
 <html lang="hu">
-    <head>
+
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sinus</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-            <ul>
-                    <li><a href="index.html"><p class="teljes">Kezdőlap</p><p class="rovid">Home</p></a></li>
-                    <li class="active"><a href="Sinus.html"><p class="teljes">Sinus</p><p class="rovid">sin</p></a></li>
-                    <li><a href="Cosinus.html"><p class="teljes">Cosinus</p><p class="rovid">cos</p></a></li>
-                    <li><a href="Tangens.html"><p class="teljes">Tangens</p><p class="rovid">tan</p></a></li>
-                    <li><a href="Cotangens.html"><p class="teljes">Cotangens</p><p class="rovid">ctg</p></a></li>
-            </ul>
-            <h1>A Szinusz függvény:</h1>
-            <div><p>Egy szög <b>szinusza</b> a szöggel szembeni befogó és az átfogó hányadosa.</p></div>
-            <table>
-                    <tr>
-                            <th><i>A szög szinuszának tulajdonságai:</i></th>
-                            <th></th>
-                    </tr>
-                    <tr><td>Értelmezési taromány:</td> <td>x∈ℝ.</td></tr>
-                        <tr><td>Értékkészlet:</td> <td>y=sin(x)∈ℝ|y∈[-1;1]</td></tr>
-                        <tr><td>Zérushelye:</td> <td>x=0+kπ ; k∈ℤ</td></tr>
-                        <tr><td>Menete:</td> <td>Monoton nő, ha -π/2+k2π≤x≤π/2+k2π; k∈ℤ.
-                                 Monoton csökken, ha π/2+k2π≤x≤3π/2+k2π; k∈ℤ.</td></tr>
-                                 <tr><td>Szélsőértéke:</td><td>Maximum: y=1; x=π/2+k2π; k∈ℤ.
-                                        Minimum: y=-1; x= 3π/2+k2π; k∈ℤ.
-                                        </td></tr>
-                                        <tr><td>Korlátos:</td> <td>Igen. -1≤sin(x)≤+1</td></tr>
-                                         <tr><td>Páros vagy páratlan:</td> <td>Páratlan, sin(-x)=-sin(x)</td></tr>
-                                         <tr><td>Periodikus:</td> <td>Igen. A periódus hossza: p=2π.</td></tr>
-                                         <tr><td>Folytonos:</td> <td>Igen.</td></tr>
-                                         <tr><td>Inverz függvénye:</td> <td>Van: f-1(x)=arcsin(x), ha -1≤x≤1.</td></tr>
+</head>
 
-                                 
-            </table>
-            <p>Forrás: <a>https://matekarcok.hu/szinuszfuggveny/</a></p>
-    </body>
-    </html>
+<body>
+    <ul>
+        <li><a href="index.html">
+                <p class="teljes">Kezdőlap</p>
+                <p class="rovid">Home</p>
+            </a></li>
+        <li class="active"><a href="Sinus.html">
+                <p class="teljes">Sinus</p>
+                <p class="rovid">sin</p>
+            </a></li>
+        <li><a href="Cosinus.html">
+                <p class="teljes">Cosinus</p>
+                <p class="rovid">cos</p>
+            </a></li>
+        <li><a href="Tangens.html">
+                <p class="teljes">Tangens</p>
+                <p class="rovid">tan</p>
+            </a></li>
+        <li><a href="Cotangens.html">
+                <p class="teljes">Cotangens</p>
+                <p class="rovid">ctg</p>
+            </a></li>
+    </ul>
+    <h1>A Szinusz függvény:</h1>
+    <div>
+        <p>Egy szög <b>szinusza</b> a szöggel szembeni befogó és az átfogó hányadosa.</p>
+    </div>
+    <table>
+        <tr>
+            <th><i>A szög szinuszának tulajdonságai:</i></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Értelmezési taromány:</td>
+            <td>x∈ℝ.</td>
+        </tr>
+        <tr>
+            <td>Értékkészlet:</td>
+            <td>y=sin(x)∈ℝ|y∈[-1;1]</td>
+        </tr>
+        <tr>
+            <td>Zérushelye:</td>
+            <td>x=0+kπ ; k∈ℤ</td>
+        </tr>
+        <tr>
+            <td>Menete:</td>
+            <td>Monoton nő, ha -π/2+k2π≤x≤π/2+k2π; k∈ℤ.
+                Monoton csökken, ha π/2+k2π≤x≤3π/2+k2π; k∈ℤ.</td>
+        </tr>
+        <tr>
+            <td>Szélsőértéke:</td>
+            <td>Maximum: y=1; x=π/2+k2π; k∈ℤ.
+                Minimum: y=-1; x= 3π/2+k2π; k∈ℤ.
+            </td>
+        </tr>
+        <tr>
+            <td>Korlátos:</td>
+            <td>Igen. -1≤sin(x)≤+1</td>
+        </tr>
+        <tr>
+            <td>Páros vagy páratlan:</td>
+            <td>Páratlan, sin(-x)=-sin(x)</td>
+        </tr>
+        <tr>
+            <td>Periodikus:</td>
+            <td>Igen. A periódus hossza: p=2π.</td>
+        </tr>
+        <tr>
+            <td>Folytonos:</td>
+            <td>Igen.</td>
+        </tr>
+        <tr>
+            <td>Inverz függvénye:</td>
+            <td>Van: f-1(x)=arcsin(x), ha -1≤x≤1.</td>
+        </tr>
+
+
+    </table>
+    <canvas id="webgl-canvas" style="width: 1000px; height: 200px;"></canvas>
+    <input type="range" id="xValue">
+    <input type="range" id="yValue">
+    <p>Forrás: <a>https://matekarcok.hu/szinuszfuggveny/</a></p>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+<script src="webgl.js" type="text/javascript" onload="init(); DrawGraph(50,Math.sin);"></script>
+
+</html>
