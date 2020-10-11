@@ -2,6 +2,10 @@ h1
 {
     text-align: center;
 }
+div{
+    background-color: black;
+    color: white;
+}
 
 ul{
     list-style-type: none;
@@ -38,9 +42,8 @@ li:active{
     font-size: small;
 }
 
-html{
-    cursor: url('https://logos-world.net/wp-content/uploads/2020/06/Destiny-Symbol.png'); 
-    background-color: white;
+html,body,.wrap{
+    height:100%;
 }
 
 .active
@@ -53,8 +56,58 @@ a{
 }
 
 table, td, tr{
-    border: 2px solid black;
+    border: 2px solid white;
     margin: 10px;
     text-align: left;
     padding: 5px;
+}
+
+body {
+	background: white;
+	background-image: radial-gradient(
+		circle at center,
+		black 0%,
+		#222 10%,
+		white 60%
+	);
+	overflow: hidden;
+}
+
+.wrap {
+	transform-style: preserve-3d;
+	perspective: 800px;
+}
+
+.tri {
+	height: 0;
+	width: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+@for $i from 1 through $total {
+	$size: random(50) * 1px;
+	$rotate: random(360) * 1deg;
+	.tri:nth-child(#{$i}) {
+		border-top: $size solid hsla(random(360), 100%, 50%, 1);
+		border-right: $size solid transparent;
+		border-left: $size solid transparent;
+		margin-left: -$size/2;
+		margin-top: -$size/2;
+		-webkit-filter: grayscale(1);
+		filter: grayscale(1);
+		transform: rotate($rotate) translate3d(0, 0, -1500px) scale(0);
+		animation: anim#{$i} $time infinite linear;
+		animation-delay: $i * -($time/$total);
+		opacity: 0;
+	}
+
+	@keyframes anim#{$i} {
+		0% {
+			opacity: 1;
+			transform: rotate($rotate * 1.5)
+				translate3d(random(1000) * 1px, random(1000) * 1px, 1000px) scale(1);
+		}
+	}
 }
