@@ -66,7 +66,7 @@ function draw(gl, programInfo, buffers, vertexCount) {
     gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
 
     //Sets the color each pixel is set to when it is cleared
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     //Camera parameters
@@ -164,11 +164,18 @@ function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
             colorList.push(1.0, 1.0, 1.0, 1.0)
         }
     }
+    //Vertices of the two coordinate lines
     vertexList.push(0);
     vertexList.push(-50);
     colorList.push(0, 1, 0, 1.0);
     vertexList.push(0);
     vertexList.push(50);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(-50);
+    vertexList.push(0);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(50);
+    vertexList.push(0);
     colorList.push(0, 1, 0, 1.0);
 }
 
