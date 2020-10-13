@@ -60,17 +60,21 @@ function initBuffers(gl, positions, colors) {
 }
 
 function draw(gl, programInfo, buffers, vertexCount) {
+    //Sets resolution
     gl.canvas.width = gl.canvas.clientWidth;
     gl.canvas.height = gl.canvas.clientHeight;
     gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
 
+    //Sets the color each pixel is set to when it is cleared
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    //Camera parameters
     const fieldOfView = (45 * Math.PI) / 180; // in radians
     const aspect = gl.canvas.width / gl.canvas.height;
     const zNear = 0.1;
     const zFar = 100.0;
+
     const projectionMatrix = mat4.create();
 
     mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
@@ -79,6 +83,14 @@ function draw(gl, programInfo, buffers, vertexCount) {
 
     mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
 
+<<<<<<< Updated upstream
+=======
+    const numComponents = 2;
+    const type = gl.FLOAT;
+    const normalize = false;
+    const stride = 0;
+    const offset = 0;
+>>>>>>> Stashed changes
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
@@ -148,9 +160,15 @@ function init() {
 function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     vertPositions = [];
     vertexList = [];
+<<<<<<< Updated upstream
     for (x = -width/2; x <= width/2; x += 2/gl.canvas.width) {
         vertPositions.push(x * xMod);
         vertPositions.push(yCalculationMethod(x) * yMod);
+=======
+    for (x = -width/2; x <= width/2; x += 0.5/gl.canvas.width) {
+        vertPositions.push(x);
+        vertPositions.push(Math.sin(x));
+>>>>>>> Stashed changes
     }
     for (i = 0; i < vertPositions.length; i += 2) {
         for(x = 0; x < 4; x++)
