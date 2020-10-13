@@ -83,14 +83,6 @@ function draw(gl, programInfo, buffers, vertexCount) {
 
     mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
 
-<<<<<<< Updated upstream
-=======
-    const numComponents = 2;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
->>>>>>> Stashed changes
 
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
@@ -160,15 +152,9 @@ function init() {
 function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     vertPositions = [];
     vertexList = [];
-<<<<<<< Updated upstream
-    for (x = -width/2; x <= width/2; x += 2/gl.canvas.width) {
-        vertPositions.push(x * xMod);
-        vertPositions.push(yCalculationMethod(x) * yMod);
-=======
     for (x = -width/2; x <= width/2; x += 0.5/gl.canvas.width) {
         vertPositions.push(x);
         vertPositions.push(Math.sin(x));
->>>>>>> Stashed changes
     }
     for (i = 0; i < vertPositions.length; i += 2) {
         for(x = 0; x < 4; x++)
