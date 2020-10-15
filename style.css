@@ -178,3 +178,7 @@ html, body {
 body{
   margin-left: 2rem;
 }
+
+#tartalom{
+  background-color: rgba(255, 255, 255, 0);
+}
