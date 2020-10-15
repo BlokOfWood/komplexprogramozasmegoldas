@@ -69,6 +69,7 @@ table, td, tr{
 }
 
 html, body {
+  width: 100%;
   height: 100%;
   background-color:transparent;
 }
@@ -148,7 +149,6 @@ html, body {
   color: white;
   cursor: pointer;
   padding: 18px;
-  width: 20 px;
   border: 1px solid white;
   text-align: left;
   outline: none;

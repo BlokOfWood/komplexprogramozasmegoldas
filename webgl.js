@@ -23,6 +23,32 @@ const fragShader = `
 
 var programInfo;
 
+var vertPositions = [];
+var vertexList = [];
+var colorList = [];
+
+function init() {
+    const canvas = document.querySelector("#webgl-canvas");
+    gl = canvas.getContext("webgl");
+
+    const shaderProgram = initShader(gl, vertShader, fragShader);
+
+    programInfo = {
+        program: shaderProgram,
+        attribLocations: {
+            vertexPosition: gl.getAttribLocation(shaderProgram, "vertexPos"),
+            color: gl.getAttribLocation(shaderProgram, "color"),
+        },
+        uniformLocations: {
+            projectionMatrix: gl.getUniformLocation(
+                shaderProgram,
+                "projectionMatrix"
+            ),
+            modelViewMatrix: gl.getUniformLocation(shaderProgram, "modelViewMatrix"),
+        },
+    };
+}
+
 function loadShader(gl, type, code) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, code);
@@ -87,11 +113,11 @@ function draw(gl, programInfo, buffers, vertexCount) {
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
-        2, //numComponents
+        2, ////number of components
         gl.FLOAT, //type
         false, //normalize
-        0, //stride
-        0 //offset
+        0, //stride (the amount of bits between each block of data)
+        0 //offset (the amount of bits that should be ignored at the start)
     );
     gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
 
@@ -101,8 +127,8 @@ function draw(gl, programInfo, buffers, vertexCount) {
         4, //number of components
         gl.FLOAT, //type
         false, //normalize
-        0, //stride
-        0 //offset
+        0, //stride (the amount of bits between each block of data)
+        0 //offset (the amount of bits that should be ignored at the start)
     );
     gl.enableVertexAttribArray(programInfo.attribLocations.color);
 
@@ -123,36 +149,11 @@ function draw(gl, programInfo, buffers, vertexCount) {
     gl.drawArrays(gl.LINES, 0, vertexCount);
 }
 
-var vertPositions = [];
-var vertexList = [];
-var colorList = [];
-
-function init() {
-    const canvas = document.querySelector("#webgl-canvas");
-    gl = canvas.getContext("webgl");
-
-    const shaderProgram = initShader(gl, vertShader, fragShader);
-
-    programInfo = {
-        program: shaderProgram,
-        attribLocations: {
-            vertexPosition: gl.getAttribLocation(shaderProgram, "vertexPos"),
-            color: gl.getAttribLocation(shaderProgram, "color"),
-        },
-        uniformLocations: {
-            projectionMatrix: gl.getUniformLocation(
-                shaderProgram,
-                "projectionMatrix"
-            ),
-            modelViewMatrix: gl.getUniformLocation(shaderProgram, "modelViewMatrix"),
-        },
-    };
-}
-
 function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     vertPositions = [];
     vertexList = [];
     colorList = [];
+    
     //Vertices of the two coordinate lines
     vertexList.push(0,-50);
     colorList.push(0, 1, 0, 1.0);
@@ -162,11 +163,13 @@ function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     colorList.push(0, 1, 0, 1.0);
     vertexList.push(50, 0);
     colorList.push(0, 1, 0, 1.0);
+
     if(xMod == 0) return;
     for (x = -width/2*(1/Math.abs(xMod)); x <= width/2*(1/Math.abs(xMod)); x += 0.5/gl.canvas.width) {
         vertPositions.push(x*xMod);
         vertPositions.push(yCalculationMethod(x)*yMod);
     }
+
     for (i = 0; i < vertPositions.length; i += 2) {
         for(x = 0; x < 4; x++)
         {
