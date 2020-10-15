@@ -35,75 +35,87 @@
                         </a></li>
         </ul>
         <div>
-        <h1>A Tangens függvény:</h1>
-        
+                <h1>A Tangens függvény:</h1>
+
                 <p>Egy szög <b>tangense</b> a szöggel szembeni oldal és a szög melletti oldal hányadosa:</p>
-        
-        <table>
-                <tr>
-                        <th><i>A szög tangensének tulajdonságai:</i></th>
-                        <th></th>
-                </tr>
-                <tr>
-                        <td>Értelmezési taromány:</td>
-                        <td>x∈ℝ\{ π/2+kπ; k∈ℤ}</td>
-                </tr>
-                <tr>
-                        <td>Értékkészlet:</td>
-                        <td>y=tg(x)∈ℝ.</td>
-                </tr>
-                <tr>
-                        <td>Zérushelye:</td>
-                        <td>x=0+kπ ; k∈ℤ.</td>
-                </tr>
-                <tr>
-                        <td>Menete:</td>
-                        <td>Minden (-π/2+kπ, π/2+kπ) intervallumon (periódusonként) szigorúan monoton növekvő.</td>
-                </tr>
-                <tr>
-                        <td>Szélsőértéke:</td>
-                        <td>Nincs.
-                        </td>
-                </tr>
-                <tr>
-                        <td>Korlátos:</td>
-                        <td>Nem.</td>
-                </tr>
-                <tr>
-                        <td>Páros vagy páratlan:</td>
-                        <td>Páratlan függvény. tg(-x)=-tg(x)</td>
-                </tr>
-                <tr>
-                        <td>Periodikus:</td>
-                        <td>Igen. A periódus hossza: p=π.</td>
-                </tr>
-                <tr>
-                        <td>Folytonos:</td>
-                        <td>Nem. x= π/2+kπ; k∈ℤ helyeken szakadása van.</td>
-                </tr>
-                <tr>
-                        <td>Inverz függvénye:</td>
-                        <td>A (-π/2;π/2) intervallumban invertálható.</td>
-                </tr>
+
+                <table>
+                        <tr>
+                                <th><i>A szög tangensének tulajdonságai:</i></th>
+                                <th></th>
+                        </tr>
+                        <tr>
+                                <td>Értelmezési taromány:</td>
+                                <td>x∈ℝ\{ π/2+kπ; k∈ℤ}</td>
+                        </tr>
+                        <tr>
+                                <td>Értékkészlet:</td>
+                                <td>y=tg(x)∈ℝ.</td>
+                        </tr>
+                        <tr>
+                                <td>Zérushelye:</td>
+                                <td>x=0+kπ ; k∈ℤ.</td>
+                        </tr>
+                        <tr>
+                                <td>Menete:</td>
+                                <td>Minden (-π/2+kπ, π/2+kπ) intervallumon (periódusonként) szigorúan monoton növekvő.
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Szélsőértéke:</td>
+                                <td>Nincs.
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>Korlátos:</td>
+                                <td>Nem.</td>
+                        </tr>
+                        <tr>
+                                <td>Páros vagy páratlan:</td>
+                                <td>Páratlan függvény. tg(-x)=-tg(x)</td>
+                        </tr>
+                        <tr>
+                                <td>Periodikus:</td>
+                                <td>Igen. A periódus hossza: p=π.</td>
+                        </tr>
+                        <tr>
+                                <td>Folytonos:</td>
+                                <td>Nem. x= π/2+kπ; k∈ℤ helyeken szakadása van.</td>
+                        </tr>
+                        <tr>
+                                <td>Inverz függvénye:</td>
+                                <td>A (-π/2;π/2) intervallumban invertálható.</td>
+                        </tr>
 
 
-        </table>
-</div>
-<div class="lines" style="z-index: -10;">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </div>
+                </table>
+        </div>
+        <div class="lines" style="z-index: -10;">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+        </div>
 
         <canvas id="webgl-canvas" style="width: 1000px; height: 200px;"></canvas>
-        <p>Forrás: <a>https://matekarcok.hu/tangensfuggveny/</a></p>
         <button class="collapsible">Music</button>
-    <div class="content">
-        <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>  
-    </div>
-</body>
-<script src="java.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
-<script src="webgl.js" type="text/javascript" onload="init(); DrawGraph(50,Math.tan);"></script>
+        <div class="content">
+                <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM" width="300" height="380"
+                        frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+        <p style="color: white;">
+                X Szorzó
+                <br>
+                <input type="range" style="width: 50rem;" id="xValue" value="1" min="-4" max="4" step="0.1"
+                        onchange="DrawGraph(50,Math.tan)">
+                <br>
+                Y Szorzó
+                <br>
+                <input type="range" style="width: 50rem;" id="yValue" value="1" min="-4" max="4" step="0.1"
+                        onchange="DrawGraph(50,Math.tan)">
+        </p>
+        <p style="color: white;">Forrás: <a>https://matekarcok.hu/tangensfuggveny/</a></p>
+        <script src="java.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+        <script src="webgl.js" type="text/javascript" onload="init(); DrawGraph(50,Math.tan);"></script>
 
 </html>

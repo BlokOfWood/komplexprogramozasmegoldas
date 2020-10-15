@@ -35,72 +35,84 @@
             </a></li>
     </ul>
     <div>
-    <h1>A Koszinusz függvény</h1>
-    Egy szög <b>koszinusza</b> a szög melletti oldal és az átfogó hányadosa.
-    <table>
-        <tr>
-            <th><i>A szög koszinuszának tulajdonságai:</i></th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>Értelmezési taromány:</td>
-            <td>x∈ℝ.</td>
-        </tr>
-        <tr>
-            <td>Értékkészlet:</td>
-            <td>y=cos(x)∈ℝ|y∈[-1;1]</td>
-        </tr>
-        <tr>
-            <td>Zérushelye:</td>
-            <td>x=0+kπ ; k∈ℤ.</td>
-        </tr>
-        <tr>
-            <td>Menete:</td>
-            <td>Monoton nő, ha -π+k2π≤x≤0+k2π; k∈ℤ.
-                Monoton csökken, ha 0+k2π≤x≤π+k2π; k∈ℤ.
-            </td>
-        </tr>
-        <tr>
-            <td>Szélsőértéke:</td>
-            <td>Maximum: y=1; x=0+k2π; k∈ℤ.
-                Minimum: y=-1; x= π+k2π; k∈ℤ.
-            </td>
-        </tr>
-        <tr>
-            <td>Korlátos:</td>
-            <td>Igen. -1≤cos(x)≤+1</td>
-        </tr>
-        <tr>
-            <td>Páros vagy páratlan:</td>
-            <td>Páros, cos(-x)=cos(x)</td>
-        </tr>
-        <tr>
-            <td>Periodikus:</td>
-            <td>Igen. A periódus hossza: p=2π.</td>
-        </tr>
-        <tr>
-            <td>Folytonos:</td>
-            <td>Igen.</td>
-        </tr>
-        <tr>
-            <td>Inverz függvénye:</td>
-            <td>Van: f-1(x)=arccos(x), ha -1≤x≤1.</td>
-        </tr>
+        <h1>A Koszinusz függvény</h1>
+        Egy szög <b>koszinusza</b> a szög melletti oldal és az átfogó hányadosa.
+        <table>
+            <tr>
+                <th><i>A szög koszinuszának tulajdonságai:</i></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Értelmezési taromány:</td>
+                <td>x∈ℝ.</td>
+            </tr>
+            <tr>
+                <td>Értékkészlet:</td>
+                <td>y=cos(x)∈ℝ|y∈[-1;1]</td>
+            </tr>
+            <tr>
+                <td>Zérushelye:</td>
+                <td>x=0+kπ ; k∈ℤ.</td>
+            </tr>
+            <tr>
+                <td>Menete:</td>
+                <td>Monoton nő, ha -π+k2π≤x≤0+k2π; k∈ℤ.
+                    Monoton csökken, ha 0+k2π≤x≤π+k2π; k∈ℤ.
+                </td>
+            </tr>
+            <tr>
+                <td>Szélsőértéke:</td>
+                <td>Maximum: y=1; x=0+k2π; k∈ℤ.
+                    Minimum: y=-1; x= π+k2π; k∈ℤ.
+                </td>
+            </tr>
+            <tr>
+                <td>Korlátos:</td>
+                <td>Igen. -1≤cos(x)≤+1</td>
+            </tr>
+            <tr>
+                <td>Páros vagy páratlan:</td>
+                <td>Páros, cos(-x)=cos(x)</td>
+            </tr>
+            <tr>
+                <td>Periodikus:</td>
+                <td>Igen. A periódus hossza: p=2π.</td>
+            </tr>
+            <tr>
+                <td>Folytonos:</td>
+                <td>Igen.</td>
+            </tr>
+            <tr>
+                <td>Inverz függvénye:</td>
+                <td>Van: f-1(x)=arccos(x), ha -1≤x≤1.</td>
+            </tr>
 
 
-    </table>
-</div>
-<div class="lines" style="z-index: -10;">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-  </div>
+        </table>
+    </div>
+    <div class="lines" style="z-index: -10;">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
     <canvas id="webgl-canvas" style="width: 1000px; height: 200px;"></canvas>
-    <p>Forrás:<a>https://matekarcok.hu/koszinusz-fuggveny/</a></p>
     <button class="collapsible">Music</button>
     <div class="content">
-        <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>  
+        <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM" width="300" height="380"
+            frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
+    <p style="color: white;">
+        X Szorzó
+        <br>
+        <input type="range" style="width: 50rem;" id="xValue" value="1" min="-4" max="4" step="0.1"
+            onchange="DrawGraph(50,Math.cos)">
+        <br>
+        Y Szorzó
+        <br>
+        <input type="range" style="width: 50rem;" id="yValue" value="1" min="-4" max="4" step="0.1"
+            onchange="DrawGraph(50,Math.cos)">
+    </p>
+    <p style="color: white;">Forrás: <a>https://matekarcok.hu/koszinusz-fuggveny/</a></p>
 </body>
 <script src="java.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
