@@ -96,8 +96,8 @@
     <div class="line"></div>
   </div>
     <canvas id="webgl-canvas" style="width: 1000px; height: 200px;"></canvas>
-    <input type="range" id="xValue">
-    <input type="range" id="yValue">
+    <input type="range" id="xValue" value="1" min ="-4" max="4" step="0.1" onchange="DrawGraph(50,Math.sin)">
+    <input type="range" id="yValue" value="1" min ="-4" max="4" step="0.1" onchange="DrawGraph(50,Math.sin)">
     <p>Forrás: <a>https://matekarcok.hu/szinuszfuggveny/</a></p>
     <button class="collapsible">Music</button>
     <div class="content">

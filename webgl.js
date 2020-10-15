@@ -152,9 +152,20 @@ function init() {
 function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
     vertPositions = [];
     vertexList = [];
-    for (x = -width/2; x <= width/2; x += 0.5/gl.canvas.width) {
-        vertPositions.push(x);
-        vertPositions.push(Math.sin(x));
+    colorList = [];
+    //Vertices of the two coordinate lines
+    vertexList.push(0,-50);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(0,50);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(-50, 0);
+    colorList.push(0, 1, 0, 1.0);
+    vertexList.push(50, 0);
+    colorList.push(0, 1, 0, 1.0);
+    if(xMod == 0) return;
+    for (x = -width/2*(1/Math.abs(xMod)); x <= width/2*(1/Math.abs(xMod)); x += 0.5/gl.canvas.width) {
+        vertPositions.push(x*xMod);
+        vertPositions.push(yCalculationMethod(x)*yMod);
     }
     for (i = 0; i < vertPositions.length; i += 2) {
         for(x = 0; x < 4; x++)
@@ -164,24 +175,14 @@ function CalculateVertecies(width, yCalculationMethod, xMod, yMod) {
             colorList.push(1.0, 1.0, 1.0, 1.0)
         }
     }
-    //Vertices of the two coordinate lines
-    vertexList.push(0);
-    vertexList.push(-50);
-    colorList.push(0, 1, 0, 1.0);
-    vertexList.push(0);
-    vertexList.push(50);
-    colorList.push(0, 1, 0, 1.0);
-    vertexList.push(-50);
-    vertexList.push(0);
-    colorList.push(0, 1, 0, 1.0);
-    vertexList.push(50);
-    vertexList.push(0);
-    colorList.push(0, 1, 0, 1.0);
 }
 
-function DrawGraph(width, yCalculationMethod, xMod, yMod)
+function DrawGraph(width, yCalculationMethod)
 {
-    CalculateVertecies(width, yCalculationMethod, xMod, yMod);
+    var xMod = parseFloat(document.getElementById("xValue").value);
+    var yMod = parseFloat(document.getElementById("yValue").value);
+
+    CalculateVertecies(30, yCalculationMethod, xMod, yMod);
     const buffers = initBuffers(gl, vertexList, colorList);
     draw(gl, programInfo, buffers, vertexList.length);
 }
